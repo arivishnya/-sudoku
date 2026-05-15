@@ -1,0 +1,22 @@
+@import "./styles/reset";
+
+@import "./styles/colors";
+@import "./styles/flexbox";
+@import "./styles/typography";
+
+.app {
+  @include colors;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+  // Перенести в отдельные файлы
+  .overflow-hidden {
+    overflow: hidden;
+  }
+
+  .w-100 {
+    width: 100%;
+  }
+}
