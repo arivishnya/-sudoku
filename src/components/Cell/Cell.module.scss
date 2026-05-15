@@ -1,0 +1,28 @@
+.cell {
+  box-sizing: border-box;
+  width: 37px;
+  height: 37px;
+  border: 0.5px solid var(--gray-20);
+  color: var(--black-100);
+  font-weight: 200;
+  font-size: 25px;
+  cursor: pointer;
+
+  &.selected-value {
+    background-color: var(--blue-40);
+  }
+
+  &.selected {
+    border: none;
+    color: var(--white-100);
+    background-color: var(--blue-70);
+  }
+
+  &.bottom-border {
+    border-bottom: 1.5px solid var(--gray-70);
+  }
+
+  &.right-border {
+    border-right: 1.5px solid var(--gray-70);
+  }
+}
