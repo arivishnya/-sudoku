@@ -1,0 +1,18 @@
+.timer-container {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--text-color-1);
+
+  .timer {
+    font-size: 12px;
+  }
+
+  .timer-panel-container {
+    .play-pause-button {
+      display: flex;
+      width: 15px;
+      color: var(--text-color-1);
+    }
+  }
+}
