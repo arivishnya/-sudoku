@@ -36,7 +36,6 @@ dd {
 /* Выставляем основные настройки по-умолчанию для body */
 body {
   min-height: 100vh;
-  line-height: 1.5;
   text-rendering: optimizeSpeed;
   scroll-behavior: smooth;
 }
@@ -69,6 +68,14 @@ button,
 textarea,
 select {
   font: inherit;
+}
+
+button {
+  border: none;
+  padding: 0;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 svg {
