@@ -1,9 +1,13 @@
 import { Board } from "../Board";
-
-export type SelectedCell = { row: number; cell: number } | null;
-export type SelectedCellValue = number | null;
+import { Position } from "../Cell";
 
 export type GameState = {
   board: Board;
   size: number;
 };
+
+export type Difficulty = "easy" | "medium" | "hard";
+export type State = "init" | "playing" | "paused" | "completed" | "error";
+
+export type SelectedCell = Position | null;
+export type SelectedCellValue = number | null;
