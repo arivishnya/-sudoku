@@ -18,6 +18,13 @@ function TimerContainer({
   const [isRunning, setIsRunning] = useState(true);
 
   useEffect(() => {
+    const board = document.querySelector(".sudoku-app-board");
+    if (isRunning) {
+      board?.classList.remove("sudoku-app-state-pause");
+    } else {
+      board?.classList.add("sudoku-app-state-pause");
+    }
+
     if (!isRunning) return;
 
     const interval = setInterval(() => {

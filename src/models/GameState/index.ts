@@ -7,7 +7,6 @@ export type GameState = {
 };
 
 export type Difficulty = "easy" | "medium" | "hard";
-export type State = "init" | "playing" | "paused" | "completed" | "error";
 
 export type SelectedCell = Position | null;
 export type SelectedCellValue = number | null;

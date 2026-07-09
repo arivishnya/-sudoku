@@ -1,4 +1,8 @@
 .board {
+  position: relative;
+  flex-direction: column;
+  min-width: 336px;
+  min-height: 336px;
   border: 1.5px solid var(--border-color-1);
   background-color: var(--background-board);
 }

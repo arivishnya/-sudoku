@@ -60,5 +60,26 @@
 
   .sudoku-app-header {
     width: 100%;
+
+    .sudoku-app-header-text {
+      color: var(--head-color-1);
+      font-size: 13px;
+    }
+  }
+
+  .sudoku-app-state-pause {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--head-color-1);
+    opacity: 0.7;
+    pointer-events: none;
+
+    &::after {
+      position: absolute;
+      content: "Пауза";
+      color: var(--text-color-3);
+      font-weight: 600;
+    }
   }
 }

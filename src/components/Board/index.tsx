@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 
-import { SelectedCell, Difficulty, State } from "@/models/GameState";
+import { SelectedCell, Difficulty } from "@/models/GameState";
 import { Board } from "@/models/Board";
 
 import { isConflictedInSelectZone } from "@/utils/validation-utils";
 import { generateSudoku } from "@/utils/generation-utils";
 
+import Loader from "@/components/widgets/Loader";
 import Cell from "../Cell";
 
 import styles from "./Board.module.scss";
@@ -20,30 +21,37 @@ function BoardContainer({
   // хранение board state, отрисовкa клеток, передачу данных в ячейки
 
   const boxSize = Math.sqrt(boardSize);
-  const [gameState, setGameState] = useState<State>("init");
-  const { solution, gameBoard } = generateSudoku(
-    boardSize,
-    boxSize,
-    difficulty
-  );
-  const [board, setBoard] = useState<Board>(gameBoard);
+  const [solution, setSolution] = useState<Board>();
+  const [board, setBoard] = useState<Board>();
 
   useEffect(() => {
-    setGameState("playing");
-
-    return () => {
-      setGameState("completed");
-    };
+    const { solution, gameBoard } = generateSudoku(
+      boardSize,
+      boxSize,
+      difficulty
+    );
+    setSolution(solution);
+    setBoard(gameBoard);
+    return () => {};
   }, []);
 
   const [selectedCell, setSelectedCell] = useState<SelectedCell>(null);
-  const selectedCellValue = selectedCell
-    ? board[selectedCell.row][selectedCell.col].value
-    : null;
+  const selectedCellValue =
+    selectedCell && board
+      ? board[selectedCell.row][selectedCell.col].value
+      : null;
+  const [countMistake, setCountMistake] = useState(0);
+
+  useEffect(() => {
+    if (!countMistake) return;
+    const element = document.querySelector(".sudoku-app-header-mistakes-block");
+    if (!element) return;
+    element.textContent = `${countMistake} / 5`;
+  }, [countMistake]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!selectedCell || board[selectedCell.row][selectedCell.col].initial)
+      if (!selectedCell || board?.[selectedCell.row][selectedCell.col].initial)
         return;
 
       if (/^[1-9]$/.test(e.key)) {
@@ -73,7 +81,7 @@ function BoardContainer({
 
   const updateCell = (value: number | null) => {
     setBoard((prev) =>
-      prev.map((row, rowIndex) =>
+      prev?.map((row, rowIndex) =>
         row.map((cell, colIndex) =>
           rowIndex === selectedCell?.row && colIndex === selectedCell?.col
             ? { ...cell, value }
@@ -81,48 +89,60 @@ function BoardContainer({
         )
       )
     );
+
+    if (selectedCell && value) {
+      console.log(selectedCell);
+
+      const isMistake =
+        solution?.[selectedCell.row][selectedCell.col].value !== value;
+      if (isMistake) setCountMistake((prev) => prev + 1);
+    }
   };
 
   return (
-    <div className={styles.board}>
-      {board.map((row, rowIndex) => (
-        <div key={rowIndex} className="d-flex">
-          {row.map((cell, colIndex) => {
-            const isBottomBorder =
-              (rowIndex + 1) % boxSize === 0 && rowIndex !== boardSize - 1;
-            const isRightBorder =
-              (colIndex + 1) % boxSize === 0 && colIndex !== boardSize - 1;
+    <div className={["sudoku-app-board flex-justify-center", styles.board].join(" ")}>
+      {!board ? (
+        <Loader />
+      ) : (
+        board.map((row, rowIndex) => (
+          <div key={rowIndex} className="d-flex">
+            {row.map((cell, colIndex) => {
+              const isBottomBorder =
+                (rowIndex + 1) % boxSize === 0 && rowIndex !== boardSize - 1;
+              const isRightBorder =
+                (colIndex + 1) % boxSize === 0 && colIndex !== boardSize - 1;
 
-            return (
-              <Cell
-                key={colIndex}
-                row={rowIndex}
-                col={colIndex}
-                value={cell.value}
-                initial={cell.initial}
-                selectedCell={selectedCell}
-                selectedCellValue={selectedCellValue}
-                onSelectCell={onSelectCell}
-                isBottomBorder={isBottomBorder}
-                isRightBorder={isRightBorder}
-                error={
-                  selectedCell
-                    ? isConflictedInSelectZone({
-                        board,
-                        boxSize,
-                        row: rowIndex,
-                        col: colIndex,
-                        selectRow: selectedCell.row,
-                        selectCol: selectedCell.col,
-                        value: selectedCellValue,
-                      })
-                    : false
-                }
-              />
-            );
-          })}
-        </div>
-      ))}
+              return (
+                <Cell
+                  key={colIndex}
+                  row={rowIndex}
+                  col={colIndex}
+                  value={cell.value}
+                  initial={cell.initial}
+                  selectedCell={selectedCell}
+                  selectedCellValue={selectedCellValue}
+                  onSelectCell={onSelectCell}
+                  isBottomBorder={isBottomBorder}
+                  isRightBorder={isRightBorder}
+                  error={
+                    selectedCell
+                      ? isConflictedInSelectZone({
+                          board,
+                          boxSize,
+                          row: rowIndex,
+                          col: colIndex,
+                          selectRow: selectedCell.row,
+                          selectCol: selectedCell.col,
+                          value: selectedCellValue,
+                        })
+                      : false
+                  }
+                />
+              );
+            })}
+          </div>
+        ))
+      )}
     </div>
   );
 }

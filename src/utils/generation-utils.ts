@@ -23,7 +23,7 @@ export function generateSudoku(
   const solution = generateFullBoard(boardSize, boxSize, workNumbers);
 
   const gameBoard = removeCells(
-    solution,
+    structuredClone(solution),
     boardSize,
     boxSize,
     workNumbers,
@@ -84,7 +84,7 @@ function solveBoard(
 function findEmptyCell(board: Board, boardSize: number) {
   for (let r = 0; r < boardSize; r++) {
     for (let c = 0; c < boardSize; c++) {
-      if (board[r][c].value === null) {
+      if (board[r][c].initial && board[r][c].value === null) {
         return { row: r, col: c };
       }
     }
@@ -118,7 +118,9 @@ export function removeCells(
   workNumbers: number[],
   percentCount: number
 ): Board {
-  const removedCount = (Math.pow(boardSize, 2) * percentCount) / 100;
+  const removedCount = Math.floor(
+    (Math.pow(boardSize, 2) * percentCount) / 100
+  );
   let removed = 0;
 
   while (removed < removedCount) {
@@ -167,8 +169,9 @@ function countSolutions(
     for (const num of numbers) {
       if (canPlaceNumber(num, row, col, board, boxSize)) {
         board[row][col].value = num;
-        solve();
+        const result = solve();
         board[row][col].value = null;
+        if (!result) break;
       }
     }
 
