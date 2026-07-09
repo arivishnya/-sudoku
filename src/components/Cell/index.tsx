@@ -6,6 +6,7 @@ function CellContainer({
   row,
   col,
   value,
+  initial,
   error,
   selectedCell,
   selectedCellValue,
@@ -28,6 +29,7 @@ function CellContainer({
         error && styles["selected-error"],
         isBottomBorder && styles["bottom-border"],
         isRightBorder && styles["right-border"],
+        initial && styles["initial-value"],
       ]
         .filter(Boolean)
         .join(" ")}

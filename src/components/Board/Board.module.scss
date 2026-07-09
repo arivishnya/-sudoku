@@ -1,7 +1,4 @@
-.board-header {
-}
-
 .board {
-  width: fit-content;
-  border: 1.5px solid var(--gray-50);
+  border: 1.5px solid var(--border-color-1);
+  background-color: var(--background-board);
 }

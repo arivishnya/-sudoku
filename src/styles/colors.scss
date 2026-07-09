@@ -1,15 +1,29 @@
 @mixin colors {
+  --black-90: #26292b;
   --black-70: #454648;
   --black-5: rgba(0, 0, 0, 0.05);
 
+  --gray-90: #2e3239;
   --gray-50: #878a8b;
   --gray-15: #d1d1d1;
 
   --blue-70: #2b63ca;
+  --blue-50: #7895e8;
   --blue-30: #a0bffe;
+  --blue-10: #e8efff;
+  --blue-5: rgba(160, 191, 254, 0.35);
 
   --red-30: #ffbec1;
 
-  --white-400: #fff;
+  --pink-40: #d3968c;
+
+  --green-80: #0a3323;
+  --green-75: #105666;
+  --green-40: #839958;
+  --green-15: #b3cf79;
+
+  --beige-40: #f7f4d5a8;
+
+  --white-100: #fff;
   --white-40: rgba(255, 255, 255, 0.4);
 }

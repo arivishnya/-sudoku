@@ -2,31 +2,36 @@
   box-sizing: border-box;
   width: 37px;
   height: 37px;
-  border: 0.5px solid var(--gray-15);
-  color: var(--black-70);
+  border-right: 0.5px solid var(--border-color-3);
+  border-bottom: 0.5px solid var(--border-color-3);
+  color: var(--text-color-4);
   font-weight: 200;
   font-size: 25px;
   cursor: pointer;
 
+  &.initial-value {
+    color: var(--text-color-2);
+  }
+
   &.selected-value {
-    background-color: var(--blue-30);
+    background-color: var(--head-color-1);
   }
 
   &.selected {
     border: none;
-    color: var(--white-400);
-    background-color: var(--blue-70);
+    color: var(--text-color-3);
+    background-color: var(--head-color-1);
   }
 
   &.selected-error {
-    background-color: var(--red-30);
+    background-color: var(--error-color-1);
   }
 
   &.bottom-border {
-    border-bottom: 1.5px solid var(--gray-50);
+    border-bottom: 1.5px solid var(--border-color-2);
   }
 
   &.right-border {
-    border-right: 1.5px solid var(--gray-50);
+    border-right: 1.5px solid var(--border-color-2);
   }
 }
