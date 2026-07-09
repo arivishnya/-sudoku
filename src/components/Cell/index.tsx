@@ -1,11 +1,12 @@
-import { CellProps } from "../../models/Cell";
+import { CellProps } from "@/models/Cell";
 
 import styles from "./Cell.module.scss";
 
 function CellContainer({
   row,
-  cell,
+  col,
   value,
+  error,
   selectedCell,
   selectedCellValue,
   onSelectCell,
@@ -19,11 +20,12 @@ function CellContainer({
       className={[
         "flex-justify-center",
         styles.cell,
-        value === selectedCellValue && styles["selected-value"],
+        value && value === selectedCellValue && styles["selected-value"],
         selectedCell &&
           row === selectedCell.row &&
-          cell === selectedCell.cell &&
+          col === selectedCell.col &&
           styles.selected,
+        error && styles["selected-error"],
         isBottomBorder && styles["bottom-border"],
         isRightBorder && styles["right-border"],
       ]
@@ -31,7 +33,7 @@ function CellContainer({
         .join(" ")}
       onClick={(ev) => {
         ev.preventDefault();
-        onSelectCell({ row, cell });
+        onSelectCell({ row, col });
       }}
     >
       {value}
