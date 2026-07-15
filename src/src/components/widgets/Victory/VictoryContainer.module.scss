@@ -1,0 +1,25 @@
+.victory-container {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+
+  .victory-header {
+    color: var(--black-70);
+  }
+
+  .victory-gif {
+    width: 150px;
+  }
+
+  .victory-button{
+    margin-top: 10px;
+    border-radius: 9px;
+    padding: 5px;
+    color: var(--white-100);
+    background-color: var(--head-color-1);
+  }
+}

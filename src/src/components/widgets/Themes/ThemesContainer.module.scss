@@ -1,0 +1,22 @@
+.themes-container {
+  display: flex;
+  align-items: center;
+
+  .themes-select-button {
+    width: 25px;
+    height: 15px;
+    border-radius: 9px;
+    box-shadow: 0 10px 25px rgba(10, 51, 35, 0.18);
+  }
+
+  .themes-popup {
+    position: absolute;
+    left: 50px;
+    display: flex;
+    gap: 5px;
+
+    .themes-select-button {
+      width: 15px;
+    }
+  }
+}
