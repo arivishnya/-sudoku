@@ -76,8 +76,9 @@ function ThemesContainer({
         <div className={styles["themes-popup"]}>
           {themes
             .filter((t) => t.name !== theme.name)
-            .map((t) => (
+            .map((t, tIndex) => (
               <button
+                key={tIndex}
                 className={styles["themes-select-button"]}
                 style={{ background: t.background }}
                 onClick={() => {

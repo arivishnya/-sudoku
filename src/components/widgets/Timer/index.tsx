@@ -9,22 +9,19 @@ import styles from "./TimerContainer.module.scss";
 function TimerContainer({
   hasTimerPanel = true,
   hasPause = true,
+  endGame = false,
+  setHasPause,
 }: {
   hasTimerPanel?: boolean;
   hasPause?: boolean;
+  endGame?: boolean;
+  setHasPause?: () => void;
 }) {
   const [startTime, setStartTime] = useState(Date.now());
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isRunning, setIsRunning] = useState(true);
 
   useEffect(() => {
-    const board = document.querySelector(".sudoku-app-board");
-    if (isRunning) {
-      board?.classList.remove("sudoku-app-state-pause");
-    } else {
-      board?.classList.add("sudoku-app-state-pause");
-    }
-
     if (!isRunning) return;
 
     const interval = setInterval(() => {
@@ -36,13 +33,20 @@ function TimerContainer({
     };
   }, [isRunning, startTime]);
 
+  useEffect(() => {
+    if (endGame) {
+      setElapsedTime(Date.now() - startTime);
+      setIsRunning(false);
+    }
+  }, [endGame]);
+
   return (
     <div className={styles["timer-container"]}>
       <span className={styles.timer}>{formatTime(elapsedTime)}</span>
 
       {hasTimerPanel && (
         <div className={styles["timer-panel-container"]}>
-          {hasPause && (
+          {hasPause && !endGame && (
             <button
               className={styles["play-pause-button"]}
               onClick={() => {
@@ -53,6 +57,7 @@ function TimerContainer({
                 }
 
                 setIsRunning((prev) => !prev);
+                setHasPause && setHasPause();
               }}
             >
               {isRunning ? <PauseIcon /> : <PlayIcon />}

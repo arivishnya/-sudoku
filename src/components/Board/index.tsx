@@ -14,9 +14,13 @@ import styles from "./Board.module.scss";
 function BoardContainer({
   boardSize,
   difficulty,
+  hasOverlay,
+  setCountMistake,
 }: {
   boardSize: number;
   difficulty: Difficulty;
+  hasOverlay?: boolean;
+  setCountMistake: () => void;
 }) {
   // хранение board state, отрисовкa клеток, передачу данных в ячейки
 
@@ -24,7 +28,7 @@ function BoardContainer({
   const [solution, setSolution] = useState<Board>();
   const [board, setBoard] = useState<Board>();
 
-  useEffect(() => {
+  const start = () => {
     const { solution, gameBoard } = generateSudoku(
       boardSize,
       boxSize,
@@ -32,6 +36,10 @@ function BoardContainer({
     );
     setSolution(solution);
     setBoard(gameBoard);
+  };
+
+  useEffect(() => {
+    start();
     return () => {};
   }, []);
 
@@ -40,14 +48,6 @@ function BoardContainer({
     selectedCell && board
       ? board[selectedCell.row][selectedCell.col].value
       : null;
-  const [countMistake, setCountMistake] = useState(0);
-
-  useEffect(() => {
-    if (!countMistake) return;
-    const element = document.querySelector(".sudoku-app-header-mistakes-block");
-    if (!element) return;
-    element.textContent = `${countMistake} / 5`;
-  }, [countMistake]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -95,12 +95,16 @@ function BoardContainer({
 
       const isMistake =
         solution?.[selectedCell.row][selectedCell.col].value !== value;
-      if (isMistake) setCountMistake((prev) => prev + 1);
+      if (isMistake) setCountMistake();
     }
   };
 
   return (
-    <div className={["sudoku-app-board flex-justify-center", styles.board].join(" ")}>
+    <div
+      className={["sudoku-app-board flex-justify-center", styles.board].join(
+        " "
+      )}
+    >
       {!board ? (
         <Loader />
       ) : (
@@ -143,6 +147,8 @@ function BoardContainer({
           </div>
         ))
       )}
+
+      {hasOverlay && <span className="sudoku-app-overlay" />}
     </div>
   );
 }
